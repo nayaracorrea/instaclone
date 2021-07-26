@@ -28,7 +28,7 @@ O Layout é o do Instagram no modo claro.
 ### Aplicativo
 
 <p align="center" style="display: flex; align-items: flex-start; justify-content: center;">
-  <img alt="InstaClone" title="#InstaClone" src="./assets/instaclone.gif" height="400">
+  <img src="https://media.giphy.com/media/4PQhCe5m55En1nptIb/giphy.gif" />
 
 </p>
 
