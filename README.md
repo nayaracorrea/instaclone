@@ -110,7 +110,7 @@ $ adb reverse tcp:3000 tcp:3000
 
 As seguintes ferramentes foram usadas na construção do projeto:
 
-### **Aplicativo** [JavaScript](https://www.javascript.com/))
+### **Aplicativo** [JavaScript](https://www.javascript.com/)
 
 - **[React Native](https://reactnative.dev/)**
 - **[Expo](https://docs.expo.io/)**
