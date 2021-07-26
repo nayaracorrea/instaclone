@@ -1,10 +1,47 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { useLayoutEffect } from 'react';
-import { Button, FlatList, View, Text, Image } from 'react-native';
+import { Button, FlatList, View, Text, Image, StyleSheet } from 'react-native';
 
 import LazyImage from '../../components/LazyImage';
 import StoriesArea from '../../components/StoriesArea';
-import { HeaderNavigation, BtnIcons, Icon, Container, Post, Header, Avatar, Name, MoreContainer, Description, Loading } from './styles';
+import {
+  HeaderNavigation,
+  BtnIcons,
+  Icon,
+  Container,
+  Post,
+  Header,
+  Avatar,
+  Name,
+  MoreContainer,
+  InteractionsOptions,
+  Interactions,
+  BookmarkContainer,
+  Bookmark,
+  Description,
+  Loading
+} from './styles';
+
+import {
+  ContainerStories,
+  AvatarBorder,
+  AvatarBackground,
+  AvatarStories,
+  AvatarBorderNoStories,
+  PlusIcon
+} from './stylesStories'
+
+const FlatListItemSeparator = () => {
+  return (
+    <View
+      style={{
+        height: 1,
+        width: "100%",
+        backgroundColor: "#000",
+      }}
+    />
+  );
+}
 
 const Feed = ({ navigation }) => {
   const [feed, setFeed] = useState([])
@@ -13,6 +50,8 @@ const Feed = ({ navigation }) => {
   const [loading, setLoading] = useState(false)
   const [refresh, setRefresh] = useState(false)
   const [viewable, setViewable] = useState([])
+
+  const [stories, setStories] = useState([])
 
   async function loadPage(pageNumber = page, shouldRefresh = false) {
     if (total && pageNumber > total) return
@@ -32,16 +71,34 @@ const Feed = ({ navigation }) => {
     setLoading(false)
   }
 
+  async function loadStories() {
+    setLoading(true)
+
+    const response = await fetch(
+      'http://localhost:3000/authors'
+    )
+
+    const data = await response.json()
+
+    setStories(data)
+
+  }
+
+
+  console.log(stories)
+
+
   useEffect(() => {
     loadPage()
+    loadStories()
   }, [])
 
-  console.log(feed)
 
   async function refreshList() {
     setRefresh(true)
 
     await loadPage(1, true)
+    await loadStories()
 
     setRefresh(false)
   }
@@ -68,6 +125,64 @@ const Feed = ({ navigation }) => {
     })
   })
 
+  const ItemSeparatorView = () => {
+    return (
+      // Flat List Item Separator
+      <View
+        style={{
+          height: 0.5,
+          width: '100%',
+          backgroundColor: '#C8C8C8',
+        }}
+      />
+    );
+  };
+
+  const ListHeaderStories = (stories = false) => {
+    return (
+      <>
+        {stories == false ? (
+          <AvatarBorderNoStories>
+            <AvatarBackground>
+              <AvatarStories source={require('../../assets/LargeAvatar.png')} />
+              <PlusIcon source={require('../../assets/AddStory.png')} />
+            </AvatarBackground>
+          </AvatarBorderNoStories>
+        ) :
+          (
+            <AvatarBorder>
+              <AvatarBackground>
+                <AvatarStories source={require('../../assets/LargeAvatar.png')} />
+              </AvatarBackground>
+            </AvatarBorder>
+          )
+        }
+      </>
+    )
+  }
+
+  const ListHeaderFeed = () => {
+    //View to set in Header
+    return (
+      <ContainerStories>
+        <FlatList
+          data={stories}
+          horizontal={true}
+          ListHeaderComponent={ListHeaderStories(false)}
+          showsHorizontalScrollIndicator={false}
+          renderItem={({ item }) => (
+            <AvatarBorder>
+              <AvatarBackground>
+                <AvatarStories source={{ uri: item.avatar }} />
+              </AvatarBackground>
+            </AvatarBorder>
+          )}
+        />
+
+      </ContainerStories>
+    );
+  };
+
   return (
     <Container>
       <FlatList
@@ -78,10 +193,12 @@ const Feed = ({ navigation }) => {
         onEndReachedThreshold={0.1}
         onRefresh={refreshList}
         refreshing={refresh}
-        // onViewableItemsChanged={handleViewableChanged}
+        onViewableItemsChanged={handleViewableChanged}
         viewabilityConfig={{ viewAreaCoveragePercentThreshold: 10 }}
         ListFooterComponent={loading && <Loading />}
-        ListHeaderComponent={refresh && loading ? <StoriesArea /> : <StoriesArea />}
+        showsVerticalScrollIndicator={false}
+        ItemSeparatorComponent={ItemSeparatorView}
+        ListHeaderComponent={ListHeaderFeed}
         renderItem={({ item }) => (
           <Post>
             <Header>
@@ -100,6 +217,16 @@ const Feed = ({ navigation }) => {
               source={{ uri: item.image }}
             />
 
+            <InteractionsOptions>
+              <Interactions source={require('../../assets/like.png')} />
+              <Interactions source={require('../../assets/comment.png')} />
+              <Interactions source={require('../../assets/share.png')} />
+
+              <BookmarkContainer>
+                <Bookmark source={require('../../assets/bookmark.png')} />
+              </BookmarkContainer>
+            </InteractionsOptions>
+
             <Description>
               <Name>{item.author.name}</Name> {item.description}
             </Description>
@@ -111,5 +238,6 @@ const Feed = ({ navigation }) => {
     </Container>
   );
 }
+
 
 export default Feed;

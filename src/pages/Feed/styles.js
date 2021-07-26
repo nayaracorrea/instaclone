@@ -25,6 +25,8 @@ export const Container = styled.View`
 
 export const Post = styled.View`
   margin-top: 10px;
+
+  border: none;
 `
 
 export const Header = styled.View`
@@ -49,6 +51,31 @@ export const MoreContainer = styled.View`
   flex: 1;
   justify-content: center;
   align-items: flex-end;
+`
+
+export const InteractionsOptions = styled.View`
+  flex: 1;
+
+  flex-direction: row;
+
+  padding-left: 15px;
+`
+
+export const Interactions = styled.Image`
+  margin-top: 10px;
+  margin-right: 10px;
+`
+
+export const BookmarkContainer = styled.View`
+  flex: 1;
+  justify-content: center;
+  align-items: flex-end;
+
+  padding-right: 15px;
+`
+
+export const Bookmark = styled.Image`
+  margin-top: 10px;
 `
 
 export const Description = styled.Text`
