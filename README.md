@@ -12,6 +12,13 @@
 ## 💻 Sobre o projeto
 
 Esse é o InstaClone. A ideia era recriar apenas o layout do Instagram para aperfeiçoar os conhecimentos em React Native.
+O projeto foi feito a partir da videoaula apresentada pelo Diego Fernandes da Rocketseat.
+
+Tutorial inicial: 
+
+<a href="https://www.youtube.com/watch?v=2nXsLpUCO20&t=395s">
+  <img alt="Made by Diego Fernandes" src="https://img.shields.io/badge/Youtube-Tutorial%20InstaClone-red">
+</a>
 
 ## ⚙️ Funcionalidades
 
