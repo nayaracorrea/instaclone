@@ -1,9 +1,9 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { useLayoutEffect } from 'react';
-import { Button, FlatList, View, Text, Image, StyleSheet } from 'react-native';
+import { FlatList, View, Image } from 'react-native';
 
 import LazyImage from '../../components/LazyImage';
-import StoriesArea from '../../components/StoriesArea';
+
 import {
   HeaderNavigation,
   BtnIcons,
@@ -30,18 +30,6 @@ import {
   AvatarBorderNoStories,
   PlusIcon
 } from './stylesStories'
-
-const FlatListItemSeparator = () => {
-  return (
-    <View
-      style={{
-        height: 1,
-        width: "100%",
-        backgroundColor: "#000",
-      }}
-    />
-  );
-}
 
 const Feed = ({ navigation }) => {
   const [feed, setFeed] = useState([])
@@ -81,7 +69,7 @@ const Feed = ({ navigation }) => {
     const data = await response.json()
 
     setStories(data)
-
+    setLoading(false)
   }
 
 
